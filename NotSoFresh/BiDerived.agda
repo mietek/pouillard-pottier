@@ -1,6 +1,7 @@
 import NotSoFresh.Base
 module NotSoFresh.BiDerived (base₁ base₂ : NotSoFresh.Base.Base) where
 
+open import Agda.Primitive using (lzero)
 import Category.Applicative as Cat
 import Category.Monad as Cat
 open import Relation.Binary
@@ -95,7 +96,7 @@ module αEqStarEnv where
 Fresh₂×Name₁→FName₂ : (Set → Set) → RelWorld₁₂
 Fresh₂×Name₁→FName₂ F α β = Fresh₂ β × (Name₁ α → F (Name₂ β))
 
-module WithApplicative {F} (appli : Cat.RawApplicative F) where
+module WithApplicative {F} (appli : Cat.RawApplicative {lzero} F) where
   open Cat.RawApplicative appli
 
   importFun : ∀ {α β γ δ} → β ↼→₂ δ → α ↼₁ γ
@@ -118,7 +119,7 @@ Traverse : (_↝_ : RelWorld₁₂) (M : Set → Set) (F : F₁₂) → Set
 Traverse _↝_ M F = ∀ {α β} → α ↝ β → proj₁ F α → M (proj₂ F β)
 
 module Traversable {_↝_ M}
-                   (appli : Cat.RawApplicative M)
+                   (appli : Cat.RawApplicative {lzero} M)
                    (comm : Comm₁₂ _↝_)
    where
   open Cat.RawApplicative appli

@@ -1,6 +1,7 @@
 open import NotSoFresh.Base
 module NotSoFresh.Examples.Term.Conv (base₁ base₂ : Base) where
 
+open import Agda.Primitive using (lzero)
 import Category.Monad as Cat
 import Category.Applicative as Cat
 import Category.Monad.Identity as Id
@@ -8,7 +9,7 @@ open import Data.Product
 open import Function
 
 idAppli = rawIApplicative
-  where open Cat.RawMonad Id.IdentityMonad
+  where open Cat.RawMonad {lzero} Id.IdentityMonad
 
 import  NotSoFresh.Derived
 open import  NotSoFresh.Examples.Term.DataTypes as Term

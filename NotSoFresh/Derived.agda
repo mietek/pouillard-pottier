@@ -1,7 +1,7 @@
 import NotSoFresh.Base
 module NotSoFresh.Derived (base : NotSoFresh.Base.Base) where
 
-open import Level
+open import Agda.Primitive using (lzero)
 import Category.Functor as Cat
 import Category.Functor.Extras as Cat
 import Category.Applicative as Cat
@@ -25,18 +25,18 @@ open import Relation.Nullary
 
 open NotSoFresh.Base.Base base public renaming (recycle to recycleName)
 
-module MaybeMonad = Cat.RawMonad Data.Maybe.monad
+module MaybeMonad = Cat.RawMonad {lzero} Data.Maybe.monad
 
 maybeAppli = rawIApplicative
-  where open Cat.RawMonad Data.Maybe.monad
+  where open MaybeMonad
 
 idAppli = rawIApplicative
-  where open Cat.RawMonad Id.IdentityMonad
+  where open Cat.RawMonad {lzero} Id.IdentityMonad
 
 _|×|_ : ∀ (F G : World → Set) → (World → Set)
 F |×| G = λ A → F A × G A
 
-Star⁻¹ : ∀ {A : Set} → Rel A _ → Rel A _
+Star⁻¹ : ∀ {A : Set} → Rel A lzero → Rel A lzero
 Star⁻¹ = flip ∘ Star ∘ flip
 
 _⇀_ : (β α : World) → Set
@@ -92,7 +92,7 @@ module NamePack {β} (x : Name β) where
   _≟nameOf_ : (y : Name β) → Dec (x ≡ y)
   _≟nameOf_ = _≟Name_ x
 
-module WorldRelPack α β where
+module WorldRelPack (α β : World) where
   outerOf  : World
   outerOf  = α
   innerOf  : World
@@ -202,7 +202,7 @@ import↼→★ = evalStar id _∘′_ StrongPack.importWith
 -- K : {I : Set} → Set → Rel I _
 -- K A _ _ = A
 
-Carry : ∀ {I : Set} (P : Rel I _) (A : Set) → Rel I _
+Carry : ∀ {I : Set} (P : Rel I lzero) (A : Set) → Rel I lzero
 Carry P A i j = (P i j × A)
 
 IndexTy : Rel World _ → Set
@@ -255,7 +255,7 @@ record DCEnvPack : Set₁ where
     _,_↦_        : ∀ {α β A} → DCEnv A α → α ↼→ β → A → DCEnv A β
     mapDCEnv     : ∀ {α A B} → (A → B) → DCEnv A α → DCEnv B α
 
-lookupStar : ∀ {α β _↝_} → (∀ {γ δ} → γ ↝ δ → Name γ → Maybe (Name δ))
+lookupStar : ∀ {α β} {_↝_ : Rel World lzero} → (∀ {γ δ} → γ ↝ δ → Name γ → Maybe (Name δ))
                          → Star _↝_ α β → Name α → Name β ⊎ ∃₂ _↝_
 lookupStar _ ε y = inj₁ y
 lookupStar f (x ◅ Γ) y
@@ -430,7 +430,7 @@ Fresh×Name→FName : (Set → Set) → Rel World _
 Fresh×Name→FName F α β = Fresh β × (Name α → F (Name β))
 
 module WithApplicative {F} (appli : Cat.RawApplicative F) where
-  open Cat.RawApplicative appli
+  open Cat.RawApplicative {lzero} appli
 
   importFun : ∀ {α β γ δ} → β ↼→ δ → α ↼ γ
                        → (Name α → F (Name β))
@@ -463,7 +463,7 @@ module Traversable {_↝_ M}
                    (appli : Cat.RawApplicative M)
                    (comm : Comm _↝_)
    where
-  open Cat.RawApplicative appli
+  open Cat.RawApplicative {lzero} appli
 
   Tr : (World → Set) → Set
   Tr F = Traverse _↝_ M F
@@ -489,7 +489,7 @@ module DTraversable {_↝_ M}
                     (comm : Comm _↝_)
                     (dcomm : DComm _↝_)
    where
-  open Cat.RawApplicative appli
+  open Cat.RawApplicative {lzero} appli
 
   Tr : (World → Set) → Set
   Tr F = Traverse _↝_ M F

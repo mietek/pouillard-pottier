@@ -1,5 +1,6 @@
 module NotSoFresh.Base where
 
+open import Agda.Primitive using (lzero)
 import Category.Monad as Cat
 open import Data.Empty using (⊥)
 open import Data.Bool using (Bool)
@@ -11,7 +12,7 @@ open import Relation.Nullary
 open import Relation.Binary
 open import Relation.Binary.PropositionalEquality using (_≡_;_≢_;_≗_)
 
-open Cat.RawMonad maybeMonad
+open Cat.RawMonad {lzero} maybeMonad
 
 record Base : Set₁ where
   field

@@ -1,5 +1,6 @@
 module NotSoFresh.Repr.Nominal where
 
+open import Agda.Primitive using (lzero)
 open import Algebra
 open import NotSoFresh.Base
 open import NotSoFresh.SetList
@@ -33,7 +34,7 @@ open import Function.Injection using (Injection)
 import Category.Monad as Cat
 
 module E = Equivalent
-open Cat.RawMonad Data.Maybe.monad
+open Cat.RawMonad {lzero} Data.Maybe.monad
 
 import Data.Nat.Properties as ℕ
 

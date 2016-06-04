@@ -5,6 +5,7 @@ module NotSoFresh.Examples.Term (base : Base) where
 import NotSoFresh.Derived
 open NotSoFresh.Derived base
 
+open import Agda.Primitive using (lzero)
 open import Coinduction
 import Category.Functor as Cat
 import Category.Applicative as Cat
@@ -416,7 +417,7 @@ module Reducer (split  : ∀ {α} → Tm α → CTm α)
                (val?   : ∀ {α} → Tm α → Bool)
                (reduce : ∀ {α} → Fresh α → Tm α → Tm α) where
 
-  open Cat.RawMonad Pa.monad
+  open Cat.RawMonad {lzero} Pa.monad
 
   reduce★ : ∀ {α} → Fresh α → Tm α → (Tm α) ⊥
   reduce★ g t with val? t
@@ -481,7 +482,7 @@ module SmallStep where
     open Reducer split val? red public
 
 module Typing (cenv : CEnvPack) where
-  open Cat.RawMonad Maybe.monad
+  open Cat.RawMonad {lzero} Maybe.monad
   open CEnvPack cenv
 
   typing-constants : Constant → Ty
