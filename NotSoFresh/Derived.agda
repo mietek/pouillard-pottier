@@ -66,8 +66,16 @@ DAbs F α = ∃ λ γ → α ↼→ γ × F γ
 Partial : (World → Set) → World → World → Set
 Partial F β α = F β → Maybe (F α)
 
+just⁻¹ : ∀ {a} {A : Set a} {x y : A} → Maybe.just x ≡ Maybe.just y → x ≡ y
+just⁻¹ refl = refl
+
 _≟MaybeName_ : ∀ {α} → Decidable {A = Maybe (Name α)} _≡_
-_≟MaybeName_ = DecSetoid._≟_ (Data.Maybe.decSetoid _≟Name_)
+just x  ≟MaybeName just y  with x ≟Name y
+just y  ≟MaybeName just .y | yes refl = yes refl
+just x  ≟MaybeName just y  | no  x≢y  = no (x≢y ∘ just⁻¹)
+just x  ≟MaybeName nothing = no λ ()
+nothing ≟MaybeName just y  = no λ ()
+nothing ≟MaybeName nothing = yes refl
 
 -- nameø-elim : ∀ {a} {A : Set a} → Name ø → A
 nameø-elim : ∀ {A : Set} → Name ø → A
