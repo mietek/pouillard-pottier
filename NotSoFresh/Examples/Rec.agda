@@ -48,7 +48,7 @@ data Trm α : Set where
         open FreshPack
 
 set : ∀ (ℓ : Label) → Trm ø -- generalize me with importTrm⊆
-set ℓ = ƛ′ (λ x → update⟨ [ ℓ , x ] ⟩)
+set ℓ = ƛ′ (λ x → update⟨ L.[ ℓ , x ] ⟩)
 
 
 module CBVBigStepEval where

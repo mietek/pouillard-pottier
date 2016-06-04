@@ -62,16 +62,16 @@ module BiConv (base₁ base₂ : Base) where
     open Cat.RawApplicative appli
 
     traverseTm : Traverse _↝_ M Tm₁₂
-    traverseTm Γ (V x)    = V <$> traverseName Γ x
-    traverseTm _ (` x)    = pure (` x)
-    traverseTm Γ (t · u)  = _·_ <$> traverseTm Γ t ⊛ traverseTm Γ u
-    traverseTm Γ (ƛ x τ t)
+    traverseTm Γ (Tm₁.V x)    = Tm₂.V <$> traverseName Γ x
+    traverseTm _ (Tm₁.` x)    = pure (Tm₂.` x)
+    traverseTm Γ (t Tm₁.· u)  = Tm₂._·_ <$> traverseTm Γ t ⊛ traverseTm Γ u
+    traverseTm Γ (Tm₁.ƛ x τ t)
         with comm x Γ
-    ... | (_ , Γ' , x') = ƛ x' τ <$> traverseTm Γ' t
-    traverseTm Γ (Let x t u)
+    ... | (_ , Γ' , x') = Tm₂.ƛ x' τ <$> traverseTm Γ' t
+    traverseTm Γ (Tm₁.Let x t u)
         with comm x Γ
     ... | (_ , Γ' , x')
-       = Let x' <$> traverseTm Γ t ⊛ traverseTm Γ' u
+       = Tm₂.Let x' <$> traverseTm Γ t ⊛ traverseTm Γ' u
 
   traverseTm' : Traverse' Tm₁₂
   traverseTm' = TraverseTm.traverseTm

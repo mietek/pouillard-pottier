@@ -212,7 +212,7 @@ index★↼ : IndexTy _★↼_
 index★↼ ε x = inj₁ x
 index★↼ (β↼γ ◅ Γ) x
   with export↼ β↼γ x
-...  | just x' = [ inj₁ , inj₂ ∘ suc ]′ (index★↼ Γ x')
+...  | just x' = [ inj₁ , inj₂ ∘ ℕ.suc ]′ (index★↼ Γ x')
 ...  | nothing = inj₂ 0
 
 IndexøTy : ∀ (CEnv : World → Set) → Set
@@ -386,7 +386,7 @@ endOpenEnv env = record
 module VecChain where
   data _⇀⟨_⟩_ : World → ℕ → World → Set where
     ε : ∀ {α} → α ⇀⟨ 0 ⟩ α
-    _◅_ : ∀ {α β γ n} → α ⇀ β → β ⇀⟨ n ⟩ γ → α ⇀⟨ suc n ⟩ γ
+    _◅_ : ∀ {α β γ n} → α ⇀ β → β ⇀⟨ n ⟩ γ → α ⇀⟨ ℕ.suc n ⟩ γ
 
 module αEq (Env   : Rel World _)
            (index : IndexTy Env) where
