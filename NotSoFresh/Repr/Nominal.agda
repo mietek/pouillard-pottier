@@ -211,7 +211,7 @@ import⊆-trans≡∘ (a , p) = proj₁-injective ∈'-uniq refl
 ↼-commute-⊆-lem :
   ∀ {α β γ} {α↼γ : α ↼ γ} {α⊆β : α ⊆ β} (a : Atom γ) →
   let p = proj₂ (α↼γ ↼-commute-⊆ α⊆β) in
-  import⊆ α⊆β <$> export↼ α↼γ a ≡ export↼ (proj₂ p) (import⊆ (proj₁ p) a)
+  (import⊆ α⊆β <$> export↼ α↼γ a) ≡ export↼ (proj₂ p) (import⊆ (proj₁ p) a)
 ↼-commute-⊆-lem {α↼γ = b , _} (a , _) with a ≟ℕ b
 ... | yes a≡b = refl
 ... | no  a≢b = cong just (proj₁-injective ∈'-uniq refl)

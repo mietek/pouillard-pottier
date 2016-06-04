@@ -16,6 +16,7 @@ data Constant : Set where
 
 module Make (base : Base) where
  open Base base
+ infixl 7 _·_
  data Tm α : Set where
   V    : ∀ (x : Name α) → Tm α
   _·_  : ∀ (t u : Tm α) → Tm α
