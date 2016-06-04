@@ -451,6 +451,7 @@ module SmallStep where
     val? (` _)      = true
     val? _          = false
 
+    {-# TERMINATING #-}
     split : ∀ {α} → Tm α → CTm α
     split t0 with t0
     ... | t · u      =  if val? u then
