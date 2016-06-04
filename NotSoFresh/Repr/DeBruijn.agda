@@ -9,7 +9,7 @@ open import Relation.Binary
 open import Relation.Binary.PropositionalEquality
 open import Relation.Nullary
 import Data.Fin as F
-import Data.Fin.Props as F
+import Data.Fin.Properties as F
 import Data.Nat as ℕ
 open DecTotalOrder ℕ.decTotalOrder using () renaming (refl to ≤-refl ; trans to ≤-trans)
 open ≡-Reasoning

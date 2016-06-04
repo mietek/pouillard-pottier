@@ -7,7 +7,7 @@ open import Data.Bool using (Bool)
 open import Data.Maybe using (Maybe;just;nothing;maybe) renaming (monad to maybeMonad)
 open import Data.Product using (∃;_×_;proj₁;proj₂;_,_)
 open import Data.Sum using (_⊎_ ; inj₁ ; inj₂)
-open import Function using (id;_∘_;_∶_)
+open import Function using (id;_∘_;_∋_)
 open import Relation.Nullary
 open import Relation.Binary
 open import Relation.Binary.PropositionalEquality using (_≡_;_≢_;_≗_)

@@ -25,7 +25,7 @@ open import Data.Product
 import Data.Nat as ℕ
 open ℕ renaming (_≟_ to _≟ℕ_)
 open import Function
-open import Function.Equivalence using (equivalent; _⇔_)
+open import Function.Equivalence using (equivalence; _⇔_)
 open import Relation.Nullary
 open import Relation.Nullary.Decidable renaming (map to mapDec)
 open import Relation.Binary
@@ -163,10 +163,10 @@ NatFix-inj : ∀ {σ τ} → natFix σ ≡ natFix τ → σ ≡ τ
 NatFix-inj refl = refl
 
 Number-con : ∀ {m n} → m ≡ n ⇔ num m ≡ num n
-Number-con = equivalent (cong num) Number-inj
+Number-con = equivalence (cong num) Number-inj
 
 NatFix-con : ∀ {m n} → m ≡ n ⇔ natFix m ≡ natFix n
-NatFix-con = equivalent (cong natFix) NatFix-inj
+NatFix-con = equivalence (cong natFix) NatFix-inj
 
 _≟Ty_ : Decidable {A = Ty} _≡_
 ι           ≟Ty ι           = yes refl

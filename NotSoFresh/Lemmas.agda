@@ -7,10 +7,10 @@ open import Data.Maybe using (Maybe;just;nothing)
 open import Data.Product using (∃;_×_;_,_)
 open import Data.Sum using (_⊎_ ; inj₁ ; inj₂)
 open import Data.Empty using (⊥; ⊥-elim)
-open import Function using (_∘_;_∶_)
+open import Function using (_∘_;_∋_)
 open import Relation.Nullary
 open import Relation.Binary
-open import Relation.Binary.PropositionalEquality using (_≡_;_≢_;inspect;_with-≡_;refl;sym;trans;cong;subst;_≗_)
+open import Relation.Binary.PropositionalEquality using (_≡_;_≢_;inspect;[_];refl;sym;trans;cong;subst;_≗_)
 
 nameOf↼-≡→failed-export↼ :
               ∀ {α β} {ℓ : α ↼ β} {a : Name β}
@@ -23,10 +23,10 @@ failed-export↼→nameOf↼-≡
   = export↼-injective ∘ trans export↼∘nameOf↼-fails ∘ sym
 
 export↼' : ∀ {α β} (ℓ : α ↼ β) (a : Name β) → nameOf↼ {α} ℓ ≡ a ⊎ (nameOf↼ {α} ℓ ≢ a × Name α)
-export↼' {α} ℓ a with inspect (export↼ ℓ a)
-... | nothing with-≡ eq = inj₁ (failed-export↼→nameOf↼-≡ eq)
-... | just a' with-≡ eq with nameOf↼ ℓ ≟Name a
-...      | yes nameOf↼ℓ≡a = ((_ → _) ∶ λ())
+export↼' {α} ℓ a with export↼ ℓ a | inspect (export↼ ℓ) a
+... | nothing | [ eq ] = inj₁ (failed-export↼→nameOf↼-≡ eq)
+... | just a' | [ eq ] with nameOf↼ ℓ ≟Name a
+...      | yes nameOf↼ℓ≡a = ((_ → _) ∋ λ())
                           (trans (sym eq) (nameOf↼-≡→failed-export↼ nameOf↼ℓ≡a))
 ...      | no  nameOf↼ℓ≢a = inj₂ (nameOf↼ℓ≢a , a')
 

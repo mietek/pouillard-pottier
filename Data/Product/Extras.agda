@@ -9,10 +9,10 @@ open import Relation.Nullary
 open import Function
 open import Function.Injection using (Injection; module Injection)
 
-Σ,-injective₂ : ∀ {A : Set} {P : A → Set} {x : A} {y z : P x} → (Σ A P ∶ (x , y)) ≡ (x , z) → y ≡ z
+Σ,-injective₂ : ∀ {A : Set} {P : A → Set} {x : A} {y z : P x} → (Σ A P ∋ (x , y)) ≡ (x , z) → y ≡ z
 Σ,-injective₂ refl = refl
 
-Σ,-injective₁ : ∀ {A : Set} {P : A → Set} {x₁ x₂ : A} {y₁ : P x₁} {y₂ : P x₂} → (Σ A P ∶ (x₁ , y₁)) ≡ (x₂ , y₂) → x₁ ≡ x₂
+Σ,-injective₁ : ∀ {A : Set} {P : A → Set} {x₁ x₂ : A} {y₁ : P x₁} {y₂ : P x₂} → (Σ A P ∋ (x₁ , y₁)) ≡ (x₂ , y₂) → x₁ ≡ x₂
 Σ,-injective₁ refl = refl
 
 proj₁-injective : ∀ {a b} {A : Set a} {B : A → Set b} {x y : Σ A B}

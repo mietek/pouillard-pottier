@@ -29,11 +29,11 @@ open import Relation.Nullary
 open import Relation.Nullary.Decidable
 open import Function
 open import Function.Equality using (_⟶_;_⟨$⟩_)
-open import Function.Equivalence using (module Equivalent)
+open import Function.Equivalence using (module Equivalence)
 open import Function.Injection using (Injection)
 import Category.Monad as Cat
 
-module E = Equivalent
+module E = Equivalence
 open Cat.RawMonad {lzero} Data.Maybe.monad
 
 import Data.Nat.Properties as ℕ
@@ -86,7 +86,7 @@ export↼ : ∀ {α β} → α ↼ β → Atom β → Maybe (Atom α)
 export↼ (n , β≡n⊞α) (m , m∈'n⊞α) with m ≟ℕ n
 ... | yes m≡n = nothing
 ... | no  m≢n = just (m , proof)
-  where open Equivalent (n∈'m⊞α⇔n∈'α m≢n)
+  where open Equivalence (n∈'m⊞α⇔n∈'α m≢n)
         proof = to ⟨$⟩ subst (_∈'_ m) β≡n⊞α m∈'n⊞α
 
 -- sadely this is well-typed
@@ -179,8 +179,8 @@ export↼-injective : ∀ {α β} {a b : Atom β} {ℓ : α ↼ β}
 export↼-injective {α} .{n ⊞ α} {a , p} {b , q} {n , refl} eq
  with a ≟ℕ n | b ≟ℕ n | a ≟ℕ b
 ... | no ¬P  | no ¬Q  | _ = proj₁-injective ∈'-uniq (Σ,-injective₁ (just-injective eq))
-... | no  _  | yes _  | _ = ((_ → _)∶ λ()) eq
-... | yes _  | no  _  | _ = ((_ → _)∶ λ()) eq
+... | no  _  | yes _  | _ = ((_ → _)∋ λ()) eq
+... | yes _  | no  _  | _ = ((_ → _)∋ λ()) eq
 ... | yes P  | yes Q  | no  a≢b = ⊥-elim (a≢b (trans P (sym Q)))
 ... | _      | _      | yes a≡b = proj₁-injective ∈'-uniq a≡b
 

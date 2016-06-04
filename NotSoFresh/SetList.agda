@@ -12,8 +12,8 @@ open import Relation.Binary.PropositionalEquality
 open Any.Membership-≡
 open ≡-Reasoning
 open import Data.Product
-open import Function using (_∘_;_∶_)
-open import Function.Equivalence using (_⇔_;equivalent;id;module Equivalent)
+open import Function using (_∘_;_∋_)
+open import Function.Equivalence using (_⇔_;equivalence;id;module Equivalence)
 open import Function.Equality using (_⟨$⟩_) renaming (_∘_ to _∘FE_)
 open import Relation.Binary
 open import Relation.Nullary
@@ -52,11 +52,11 @@ n∉α→n∷α≡n⊞α {α} {n} n∉α with memℕ n α
 n∈m⊞α⇔n∈α : ∀ {m n α} → n ≢ m → n ∈ m ⊞ α ⇔ n ∈ α
 n∈m⊞α⇔n∈α {m} {n} {α} n≢m with memℕ m α
 ... | yes m∈α = id
-... | no  m∉α = equivalent (Any.tail n≢m) there
+... | no  m∉α = equivalence (Any.tail n≢m) there
 
 y∈x⊞α⇔y∈x∷α : ∀ {x y α} → (y ∈ x ⊞ α) ⇔ (y ∈ x ∷ α)
 y∈x⊞α⇔y∈x∷α {x} {y} {α} with memℕ x α
-... | yes x∈α = equivalent there rl
+... | yes x∈α = equivalence there rl
   where
     rl : ∀ {y} → y ∈ x ∷ α → y ∈ α
     rl (here refl) = x∈α
@@ -70,7 +70,7 @@ y∈x⊞α⇔y∈x∷α {x} {y} {α} with memℕ x α
 α⊆β→x⊞α⊆x⊞β : ∀ {x α β} → α ⊆ β → x ⊞ α ⊆ x ⊞ β
 α⊆β→x⊞α⊆x⊞β α⊆β η =
   from y∈x⊞α⇔y∈x∷α ⟨$⟩ α⊆β→x∷α⊆x∷β α⊆β (to y∈x⊞α⇔y∈x∷α ⟨$⟩ η)
-  where open Equivalent
+  where open Equivalence
 
 a∉[] : ∀ {A : Set} {a : A} → a ∉ []
 a∉[] ()
@@ -121,17 +121,17 @@ data _∈'_ : ℕ → List ℕ → Set where
     | yes refl = here
 ... | no  x≢ℕy = there (≢ℕ-complete x≢ℕy) (∈'-complete pxs)
 
-via-∈ : ∀ {x xs y ys} → (x ∈ xs → y ∈ ys) → x ∈' xs → y ∈' ys 
+via-∈ : ∀ {x xs y ys} → (x ∈ xs → y ∈ ys) → x ∈' xs → y ∈' ys
 via-∈ f = ∈'-complete ∘ f ∘ ∈'-sound
 
 -- not used
 there∈'-inj₁ : ∀ {x y xs} {x≢y x≢y' : x ≢ℕ y} {px px' : x ∈' xs}
-               → (x ∈' y ∷ xs ∶ there x≢y px) ≡ there x≢y' px' → x≢y ≡ x≢y'
+               → (x ∈' y ∷ xs ∋ there x≢y px) ≡ there x≢y' px' → x≢y ≡ x≢y'
 there∈'-inj₁ refl = refl
 
 -- not used
 there∈'-inj₂ : ∀ {x y xs} {x≢y x≢y' : x ≢ℕ y} {px px' : x ∈' xs}
-               → (x ∈' y ∷ xs ∶ there x≢y px) ≡ there x≢y' px' → px ≡ px'
+               → (x ∈' y ∷ xs ∋ there x≢y px) ≡ there x≢y' px' → px ≡ px'
 there∈'-inj₂ refl = refl
 
 ∈'-uniq : ∀ {a α} (p q : a ∈' α) → p ≡ q
@@ -153,11 +153,11 @@ n∈'α→α≡n⊞α {α} {n} n∈'α = n∈α→α≡n⊞α (∈'-sound n∈'�
 n∈'m⊞α⇔n∈'α : ∀ {m n α} → n ≢ m → n ∈' m ⊞ α ⇔ n ∈' α
 n∈'m⊞α⇔n∈'α {m} {n} {α} n≢m with memℕ m α
 ... | yes m∈α = id
-... | no  m∉α = equivalent (via-∈ (Any.tail n≢m)) (there (≢ℕ-complete n≢m))
+... | no  m∉α = equivalence (via-∈ (Any.tail n≢m)) (there (≢ℕ-complete n≢m))
 
 y∈'x⊞α⇔y∈'x∷α : ∀ {x y α} → (y ∈' x ⊞ α) ⇔ (y ∈' x ∷ α)
 y∈'x⊞α⇔y∈'x∷α {x} {y} {α} with memℕ x α
-... | yes x∈α = equivalent (via-∈ there) rl
+... | yes x∈α = equivalence (via-∈ there) rl
   where
     rl : ∀ {y} → y ∈' x ∷ α → y ∈' α
     rl here = ∈'-complete x∈α

@@ -5,10 +5,10 @@ open import Agda.Primitive using (lzero)
 open import Data.Maybe
 open import Category.Applicative
 open import Relation.Binary.PropositionalEquality using (_≡_;refl)
-open import Function using (_∶_)
+open import Function using (_∋_)
 
 just-injective : ∀ {a} {A : Set a} {x y : A}
-                 → (Maybe A ∶ just x) ≡ just y → x ≡ y
+                 → (Maybe A ∋ just x) ≡ just y → x ≡ y
 just-injective refl = refl
 
 applicative : RawApplicative {lzero} Maybe
